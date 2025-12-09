@@ -25,7 +25,7 @@ def main():
     print("Here are some color themes you could choose from: type which one you'd like below.")
     for theme in PALETTES:
         print ("> ", theme, "\n")
-    userTheme = input(">>> ".strip.lowercase())
+    userTheme = input(">>> ")
 
     # Ask the user to select an output image name.
     
@@ -35,6 +35,8 @@ def main():
     # Display the new file.
 
     newImg = Image.open(newFilename)
+    recolor_image(filename, newFilename, userTheme)
+
 
     print("Here is your new image!")
     newImg.show()
@@ -51,7 +53,47 @@ def color_distance(c1, c2):
         (c1[2] - c2[2]) ** 2
     )
 
+# Create a function that loops through the color palette RGB's and matches it to a closest RGB of the user image.
 
+def find_closest_palette_color(pixel, palette):
+    best_color = None
+    best_distance = float("inf")
+
+    # Check every palette color
+    for pal_color in palette:
+        distance = color_distance(pixel, pal_color)
+
+        # If the palette color is closer, update to best match
+        if distance < best_distance:
+            best_distance = distance
+            best_color = pal_color
+
+    return best_color
+
+# Now create a function that will recolor the image to the new color palette
+
+def recolor_image(input_path, output_path, theme):
+    palette = PALETTES[theme] 
+
+    image = Image.open(input_path).convert("RGB")
+    width, height = image.size
+
+    # Load all the pixels for RGB values
+
+    pixels = image.load()
+
+    # Create a new output image
+    new_img = Image.new("RGB", (width, height))
+    new_pixels = new_img.load()
+
+    # Process each pixel to the new color from the chosen palette using a nested for loop
+    for y in range(height):
+        for x in range(width):
+            original_color = pixels[x, y]
+            new_pixels[x, y] = find_closest_palette_color(original_color, palette)
+
+    new_img.save(output_path)
+    print("Saved recolored image to:", output_path)
 
 if __name__ == "__main__":
     main()
