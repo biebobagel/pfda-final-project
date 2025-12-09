@@ -95,5 +95,7 @@ def recolor_image(input_path, output_path, theme):
     new_img.save(output_path)
     print("Saved recolored image to:", output_path)
 
+    return new_img
+
 if __name__ == "__main__":
     main()
