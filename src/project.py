@@ -30,13 +30,13 @@ def main():
     # Ask the user to select an output image name.
     
     print("What would you like the name of your new file to be?")
-    newFilename = input(">>> ")
+    newFilename = input(">>> ").strip()
 
-    # Display the new file.
+    # Edit the original image to the new color palette.
 
-    newImg = Image.open(newFilename)
-    recolor_image(filename, newFilename, userTheme)
+    newImg = recolor_image(filename, newFilename, userTheme)
 
+    # Display the new image.
 
     print("Here is your new image!")
     newImg.show()
