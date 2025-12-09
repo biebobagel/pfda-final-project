@@ -42,7 +42,16 @@ def main():
 
     print("Thank you!")
 
-def color_distance():
+# Create a function that takes the color distance between the original red, green, and blues with the chosen palette colors.
+
+def color_distance(c1, c2):
+    return sqrt(
+        (c1[0] - c2[0]) ** 2 +
+        (c1[1] - c2[1]) ** 2 +
+        (c1[2] - c2[2]) ** 2
+    )
+
+
 
 if __name__ == "__main__":
     main()
